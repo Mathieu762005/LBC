@@ -4,7 +4,7 @@ use App\Controllers\AnnonceController;
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
 
-$url = isset($_GET["url"]) ? $_GET["url"] : null;
+$url = isset($_GET["url"]) ? $_GET["url"] : "home";
 
 switch ($url) {
     case 'home':
@@ -34,7 +34,7 @@ switch ($url) {
 
     case 'annonces':
         $controller = new AnnonceController();
-        $controller->index();
+        $controller->annonces();
         break;
 
     case 'create':

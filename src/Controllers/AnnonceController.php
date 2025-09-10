@@ -2,22 +2,24 @@
 
 namespace App\Controllers;
 
-use App\Models\Annonce;
+use App\Models\AnnonceModel;
+use App\Models\DatabaseModel;
 
 class AnnonceController
 {
     public function index()
     {
-        require_once __DIR__ . '/../models/AnnonceModel.php';
         $DataBaseModel = new DataBaseModel();
-        $DataBaseModel = $DataBaseModel->getAll();
         require_once __DIR__ . '/../views/home.php';
     }
     public function create()
     {
-        require_once __DIR__ . '/../models/AnnonceModel.php';
         $AnnonceModel = new AnnonceModel();
-        $AnnonceModel = $AnnonceModel->getAll();
-        require_once __DIR__ . '/../views/home.php';
+        require_once __DIR__ . '/../views/create.php';
+    }
+    public function annonces()
+    {
+        $AnnonceModel = new AnnonceModel();
+        require_once __DIR__ . '/../views/annonces.php';
     }
 }
