@@ -12,39 +12,7 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg text-white">
-            <div class="container-fluid">
-                <a class="navbar-brand fw-bold text-white fs-3" href="index.php?url=home">leboncoin</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarScroll">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll d-flex align-items-center" style="--bs-scroll-height: 100px;">
-                        <li class="nav-item">
-                            <a class="nav-link active text-white" aria-current="page" href="index.php?url=annonces">Annonces</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-white" aria-current="page" href="index.php?url=create">Crée</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex me-auto" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button class="btn btn-outline-light text-white" type="submit">Search</button>
-                    </form>
-                    <ul class="navbar-nav my-2 my-lg-0 navbar-nav-scroll d-flex align-items-center" style="--bs-scroll-height: 100px;">
-                        <li class="nav-item">
-                            <a class="nav-link active text-white" aria-current="page" href="index.php?url=register">Inscription</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-white" aria-current="page" href="index.php?url=login">Connection</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-white fs-4" aria-current="page" href="index.php?url=profil"><i class="bi bi-person-circle"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <?php include_once "template/navbar.php" ?>
     </header>
     <main>
         <div>
@@ -62,11 +30,15 @@
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">Connection</button>
-                     <span class="ms-2 text-danger fst-italic fw-light"><?= $errors["connexion"] ?? '' ?></span>
+                    <span class="ms-2 text-danger fst-italic fw-light"><?= $errors["connexion"] ?? '' ?></span>
                 </div>
                 <a href="index.php?url=register">pas encore inscrit</a>
             </form>
         </div>
     </main>
+    <footer class="footer text-white text-center py-3 fixed-bottom">
+        <?php include_once "template/footer.php" ?>
+    </footer>
 </body>
+
 </html>
