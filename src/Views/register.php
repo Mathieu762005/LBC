@@ -1,58 +1,3 @@
-<?php
-// var_dump($_POST);
-
-// Création de regeX
-$regName = "/^[a-zA-Zàèé\-]+$/";
-
-// Je ne lance qu'uniquement lorsqu'il y a un formulaire validée via la méthod POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // je créé un tableau d'erreurs vide car pas d'erreur
-    $errors = [];
-
-    if (isset($_POST["email"])) {
-        // on va vérifier si c'est vide
-        if (empty($_POST["email"])) {
-            // si c'est vide, je créé une erreur dans mon tableau
-            $errors['email'] = 'Mail obligatoire';
-        } else if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-            // si mail non valide, on créé une erreur
-            $errors['email'] = 'Mail non valide';
-        }
-    }
-
-    if (isset($_POST["motDePasse"])) {
-        // on va vérifier si c'est vide
-        if (empty($_POST["motDePasse"])) {
-            // si c'est vide, je créé une erreur dans mon tableau
-            $errors['motDePasse'] = 'Mot de passe obligatoire';
-        } else if (!preg_match($regName, $_POST["motDePasse"])) {
-            // si ça ne respecte pas la regeX
-            $errors['motDePasse'] = 'Caractère(s) non autorisé(s)';
-        }
-    }
-
-    if (isset($_POST["pseudo"])) {
-        // on va vérifier si c'est vide
-        if (empty($_POST["pseudo"])) {
-            // si c'est vide, je créé une erreur dans mon tableau
-            $errors['pseudo'] = 'Pseudo obligatoire';
-        } else if (!preg_match($regName, $_POST["pseudo"])) {
-            // si ça ne respecte pas la regeX
-            $errors['pseudo'] = 'Caractère(s) non autorisé(s)';
-        }
-    }
-
-    if (!isset($_POST['cgu'])) {
-        $errors['cgu'] = 'CGU obligatoire';
-    }
-
-    if (empty($errors)) {
-        header("Location: confirmation.php?email=" . $_POST["email"]);
-    }
-}
-
-?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -112,12 +57,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="email" name="email" value="<?= $_POST["email"] ?? "" ?>" class="form-control" id="inputAddress">
                 </div>
                 <div class="col-md-6">
-                    <label for="inputCity" class="form-label">Mot de passe</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["motDePasse"] ?? '' ?></span>
-                    <input type="password" name="motDePasse" value="<?= $_POST["motDePasse"] ?? "" ?>" class="form-control" id="inputCity">
+                    <label for="inputCity" class="form-label">Mot de passe</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["password"] ?? '' ?></span>
+                    <input type="password" name="password" value="<?= $_POST["password"] ?? "" ?>" class="form-control" id="inputCity">
                 </div>
                 <div class="col-md-6">
-                    <label for="inputPassword4" class="form-label">Prénom</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["pseudo"] ?? '' ?></span>
-                    <input type="text" name="pseudo" value="<?= $_POST["pseudo"] ?? "" ?>" class="form-control" id="inputPassword4">
+                    <label for="inputCity" class="form-label">Comfirme ton mot de passe</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["confirmPassword"] ?? '' ?></span>
+                    <input type="password" name="confirmPassword" value="<?= $_POST["confirmPassword"] ?? "" ?>" class="form-control" id="inputCity">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputPassword4" class="form-label">Prénom</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["username"] ?? '' ?></span>
+                    <input type="text" name="username" value="<?= $_POST["username"] ?? "" ?>" class="form-control" id="inputPassword4">
                 </div>
                 <div class="col-12">
                     <div class="form-check">

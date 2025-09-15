@@ -1,44 +1,50 @@
 <?php
 
-use App\Controllers\AnnonceController;
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
 
-$url = isset($_GET["url"]) ? $_GET["url"] : "home";
+use App\Models\Database;
 
-switch ($url) {
+// si le param url est présent on prend sa valeur, sinon on donne la valeur home
+$url = $_GET['url'] ?? 'home';
+
+// je transforme $url en un tableau à l'aide de explode()
+$arrayUrl = explode('/', $url);
+
+// je récupère la page demandée index 0
+$page = $arrayUrl[0];
+
+switch ($page) {
     case 'home':
-        $controller = new HomeController();
-        $controller->index();
+        $objController = new HomeController();
+        $objController->index();
         break;
 
     case 'register':
-        $controller = new UserController();
-        $controller->register();
+        $objController = new UserController();
+        $objController->register();
         break;
 
     case 'login':
-        $controller = new UserController();
-        $controller->login();
-        break;
-
-    case 'profil':
-        $controller = new UserController();
-        $controller->profil();
+        $objController = new UserController();
+        $objController->login();
         break;
 
     case 'logout':
-        $controller = new UserController();
-        $controller->logout();
+        $objController = new UserController();
+        $objController->logout();
         break;
 
-    case 'annonces':
-        $controller = new AnnonceController();
-        $controller->annonces();
+    case 'profil':
+        $objController = new UserController();
+        $objController->profil();
         break;
 
-    case 'create':
-        $controller = new AnnonceController();
-        $controller->create();
+    case 'create-success':
+        require_once __DIR__ . "/../src/Views/create-success.php";
         break;
+
+    default:
+        // aucun cas reconnu = on charge la 404
+        require_once __DIR__ . "/../src/Views/page404.php";
 }
