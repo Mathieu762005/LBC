@@ -15,6 +15,7 @@
         <?php include_once "template/navbar.php" ?>
     </header>
     <main>
+        <h1>ddddddddd</h1>
     </main>
     <footer class="footer text-white text-center py-3 fixed-bottom">
         <?php include_once "template/footer.php" ?>

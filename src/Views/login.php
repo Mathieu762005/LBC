@@ -16,7 +16,7 @@
     </header>
     <main>
         <div>
-            <h1 class="text-center mt-5 fw-bold">Connection</h1>
+            <h1 class="text-center mt-5 fw-bold">Connexion</h1>
         </div>
         <div class="formulaire container border rounded-4 mt-5">
             <form class="row g-3 p-5" method="POST" action="" novalidate>

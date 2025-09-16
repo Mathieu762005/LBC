@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -15,6 +15,7 @@
         <?php include_once "template/navbar.php" ?>
     </header>
     <main>
+        <h1>eeeeeeeeeeeeeee</h1>
     </main>
     <footer class="footer text-white text-center py-3 fixed-bottom">
         <?php include_once "template/footer.php" ?>
