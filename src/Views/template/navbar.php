@@ -19,13 +19,15 @@
             </form>
             <ul class="navbar-nav my-2 my-lg-0 navbar-nav-scroll d-flex align-items-center" style="--bs-scroll-height: 100px;">
                 <li class="nav-item">
-                    <a class="nav-link active text-white" aria-current="page" href="index.php?url=register">Inscription</a>
+                    <?php if (!isset($_SESSION['user'])): ?>
+                        <a class="nav-link active text-white" aria-current="page" href="index.php?url=inscription">Inscription</a>
+                    <?php endif; ?>
                 </li>
-                <a class="" aria-current="page" href="<?= (isset($_SESSION['user'])) ? 'index.php?url=profil' : 'index.php?url=login' ?>">
-                    <li class="nav-item">
-                        <a class="nav-link active text-white" aria-current="page" href="index.php?url=login"><?= (isset($_SESSION['user'])) ? $_SESSION['user']['username'] : 'connexion' ?></a>
+                <a class="d-flex f-column align-items-center text-decoration-none" aria-current="page" href="<?= (isset($_SESSION['user'])) ? 'index.php?url=profil' : 'index.php?url=login' ?>">
+                    <li class="nav-item text-white">
+                        <?= (isset($_SESSION['user'])) ? $_SESSION['user']['username'] : 'connexion' ?>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item text-white ps-2">
                         <i class="bi bi-person-circle fs-3"></i>
                     </li>
                 </a>
