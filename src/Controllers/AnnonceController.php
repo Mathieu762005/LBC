@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controllers;
 
 use App\Models\Annonce;
@@ -60,7 +59,7 @@ class AnnonceController
                 // j'instancie mon objet selon la classe User
                 $objetAnnonce = new Annonce();
                 // je vais créer mon User selon la méthode createUser() et j'essaie de créer mon User
-                if ($objetAnnonce->createAnnonce($_POST["titre"], $_POST["description"], (int)$_POST["prix"], $_FILES["file"]['tmp_name'])) {
+                if ($objetAnnonce->createAnnonce($_POST["titre"], $_POST["description"], $_POST["prix"], $_FILES["file"]["tmp_name"], $_POST["userId"])) {
                     header('Location: index.php?url=annonces');
                     exit;
                 } else {

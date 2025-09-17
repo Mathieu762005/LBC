@@ -10,11 +10,11 @@ use PDOException;
 
 class Annonce
 {
-    public int $id;
     public string $titre;
     public string $description;
     public int $prix;
     public string $photo;
+    public int $userId;
 
     /**
      * Permet de créer un utilisateur dans la table users
@@ -24,7 +24,7 @@ class Annonce
      * @param string $photo
      * @return bool true si l'insertion a réussi, false en cas d'erreur
      */
-    public function createAnnonce(string $titre, string $description, int $prix, string $photo): bool
+    public function createAnnonce(string $titre, string $description, int $prix, string $photo, int $userId): bool
     {
         try {
             // Creation d'une instance de connexion à la base de données
@@ -36,8 +36,9 @@ class Annonce
                 return false;
             }
 
-            // requête SQL pour insérer un utilisateur dans la table users
-            $sql = 'INSERT INTO `annonces` (`a_title`, `a_description`, `a_price`, `a_picture`) VALUES (:titre, :description, :prix, :photo)';
+            // requête SQL pour insérer une Annonces dans la table Annonces
+            $sql = 'INSERT INTO `annonces` (`a_title`, `a_description`, `a_price`, `a_picture`, `u_id`) 
+            VALUES (:titre, :description, :prix, :photo, :userId)';
 
             // On prépare la requête avant de l'exécuter
             $stmt = $pdo->prepare($sql);
@@ -49,6 +50,7 @@ class Annonce
             $stmt->bindValue(':description', $description, PDO::PARAM_STR);
             $stmt->bindValue(':prix', $prix, PDO::PARAM_INT);
             $stmt->bindValue(':photo', $photo, PDO::PARAM_STR);
+            $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
 
             // On exécute la requête préparée. La méthode renvoie true si tout s’est bien passé,
             // false sinon. 
@@ -56,7 +58,7 @@ class Annonce
             return $stmt->execute();
         } catch (PDOException $e) {
             // test unitaire pour connaitre la raison de l'echec
-            // echo 'Erreur : ' . $e->getMessage();
+            echo 'Erreur : ' . $e->getMessage();
             return false;
         }
     }

@@ -15,9 +15,6 @@
         <?php include_once "template/navbar.php" ?>
     </header>
     <main>
-        <?php
-        var_dump($_POST);
-        ?>
         <div>
             <h1 class="text-center mt-5 fw-bold">Crée une annonce</h1>
         </div>
