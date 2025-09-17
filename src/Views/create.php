@@ -33,7 +33,7 @@
                         <input type="file" name="file" id="file">
                     </div>
                     <div>
-                        <button class="uploader text-white px-3 rounded-5" type="submit">Uploader</button>
+                        <button class="uploader text-white px-3 rounded-5" type="submit">crée l'annonce</button>
                     </div>
                 </form>
             </div>
