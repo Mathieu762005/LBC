@@ -2,8 +2,7 @@
 
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
-
-use App\Models\Database;
+use App\Controllers\AnnonceController;
 
 // si le param url est présent on prend sa valeur, sinon on donne la valeur home
 $url = $_GET['url'] ?? 'home';
@@ -38,6 +37,16 @@ switch ($page) {
     case 'profil':
         $objController = new UserController();
         $objController->profil();
+        break;
+
+    case 'annonces':
+        $objController = new AnnonceController();
+        $objController->annonces();
+        break;
+
+    case 'create':
+        $objController = new AnnonceController();
+        $objController->create();
         break;
 
     case 'create-success':
