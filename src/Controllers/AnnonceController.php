@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Annonce;
+
 class AnnonceController
 {
     public function annonces(): void
@@ -32,6 +34,14 @@ class AnnonceController
                 }
             }
 
+            if (isset($_POST["prix"])) {
+                // on va vérifier si c'est vide
+                if (empty($_POST["prix"])) {
+                    // si c'est vide, je créé une erreur dans mon tableau
+                    $errors['prix'] = 'prix obligatoire';
+                }
+            }
+
             if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
                 // Récupère le nom temporaire et le nom original
                 $tmpName = $_FILES['file']['tmp_name'];
@@ -43,6 +53,19 @@ class AnnonceController
 
                 // Déplace le fichier vers le dossier final
                 move_uploaded_file($tmpName, $destination);
+            }
+
+            if (empty($errors)) {
+
+                // j'instancie mon objet selon la classe User
+                $objetAnnonce = new Annonce();
+                // je vais créer mon User selon la méthode createUser() et j'essaie de créer mon User
+                if ($objetAnnonce->createAnnonce($_POST["titre"], $_POST["description"], (int)$_POST["prix"], $_FILES["file"]['tmp_name'])) {
+                    header('Location: index.php?url=annonces');
+                    exit;
+                } else {
+                    $errors['server'] = "Une erreur s'est produite veuillez rééssayer ultèrieurement";
+                }
             }
         }
         require_once __DIR__ . "/../Views/create.php";

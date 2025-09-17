@@ -15,7 +15,26 @@
         <?php include_once "template/navbar.php" ?>
     </header>
     <main>
-        <h1>ddddddddd</h1>
+        <div>
+            <h1>Annonces Publiée</h1>
+        </div>
+        <div class="container">
+            <div class="row">
+
+
+                <div class="card" style="width: 18rem;">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+
+                
+            </div>
+
+        </div>
     </main>
     <footer class="footer text-white text-center py-3 fixed-bottom">
         <?php include_once "template/footer.php" ?>
