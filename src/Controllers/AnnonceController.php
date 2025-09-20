@@ -16,9 +16,6 @@ class AnnonceController
     // Méthode qui gère la création d'une annonce
     public function create(): void
     {
-        // On démarre la session pour accéder à $_SESSION
-        session_start();
-
         // On vérifie que le formulaire a été soumis en POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
