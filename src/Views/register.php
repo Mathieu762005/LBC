@@ -33,7 +33,7 @@
                     <input type="password" name="confirmPassword" value="<?= $_POST["confirmPassword"] ?? "" ?>" class="form-control" id="inputCity">
                 </div>
                 <div class="col-md-6">
-                    <label for="inputPassword4" class="form-label">Prénom</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["username"] ?? '' ?></span>
+                    <label for="inputPassword4" class="form-label">Prénom</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["username"] ?? '' ?></span>+
                     <input type="text" name="username" value="<?= $_POST["username"] ?? "" ?>" class="form-control" id="inputPassword4">
                 </div>
                 <div class="col-12">

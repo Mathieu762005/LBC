@@ -20,7 +20,7 @@
             <ul class="navbar-nav my-2 my-lg-0 navbar-nav-scroll d-flex align-items-center" style="--bs-scroll-height: 100px;">
                 <li class="nav-item">
                     <?php if (!isset($_SESSION['user'])): ?>
-                        <a class="nav-link active text-white" aria-current="page" href="index.php?url=inscription">Inscription</a>
+                        <a class="nav-link active text-white" aria-current="page" href="index.php?url=register">Inscription</a>
                     <?php endif; ?>
                 </li>
                 <a class="d-flex f-column align-items-center text-decoration-none" aria-current="page" href="<?= (isset($_SESSION['user'])) ? 'index.php?url=profil' : 'index.php?url=login' ?>">
