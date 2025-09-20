@@ -1,130 +1,124 @@
 <?php
 
+// On indique que cette classe appartient au dossier logique "Controllers"
 namespace App\Controllers;
 
+// On importe la classe User pour pouvoir l'utiliser ici
 use App\Models\User;
 
+// Définition de la classe UserController
 class UserController
 {
-
+    // Méthode qui gère l'inscription d'un utilisateur
     public function register()
     {
+        // Si le formulaire est soumis en POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            // je créé un tableau d'erreurs vide car pas d'erreur
+            // On prépare un tableau pour stocker les erreurs
             $errors = [];
 
+            // Vérification du champ "username"
             if (isset($_POST["username"])) {
-                // on va vérifier si c'est vide
                 if (empty($_POST["username"])) {
-                    // si c'est vide, je créé une erreur dans mon tableau
                     $errors['username'] = 'Pseudo obligatoire';
                 } else if (User::checkUsername($_POST["username"])) {
-                    // si le pseudo déjà présent dans notre bdd, on créé un message d'erreur
                     $errors['username'] = 'Pseudo déjà utilisé';
                 }
             }
 
+            // Vérification du champ "email"
             if (isset($_POST["email"])) {
-                // on va vérifier si c'est vide
                 if (empty($_POST["email"])) {
-                    // si c'est vide, je créé une erreur dans mon tableau
                     $errors['email'] = 'Mail obligatoire';
                 } else if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-                    // si mail non valide, on créé une erreur
                     $errors['email'] = 'Mail non valide';
                 } else if (User::checkMail($_POST["email"])) {
-                    // si mail déjà utilisé, on créé un message d'erreur dans notre tableau
                     $errors['email'] = 'Mail déjà utilisé';
                 }
             }
 
+            // Vérification du champ "password"
             if (isset($_POST["password"])) {
-                // on va vérifier si c'est vide
                 if (empty($_POST["password"])) {
-                    // si c'est vide, je créé une erreur dans mon tableau
                     $errors['password'] = 'Mot de passe obligatoire';
                 } else if (strlen($_POST["password"]) < 8) {
-                    // si le mot de passe est trop court, on créé une erreur
                     $errors['password'] = 'Mot de passe trop court (minimum 8 caractères)';
                 }
             }
 
+            // Vérification du champ "confirmPassword"
             if (isset($_POST["confirmPassword"])) {
-                // on va vérifier si c'est vide
                 if (empty($_POST["confirmPassword"])) {
-                    // si c'est vide, je créé une erreur dans mon tableau
                     $errors['confirmPassword'] = 'Confirmation du mot de passe obligatoire';
                 } else if ($_POST["confirmPassword"] !== $_POST["password"]) {
-                    // si les deux mots de passe ne sont pas identiques, on créé une erreur
                     $errors['confirmPassword'] = 'Les mots de passe ne sont pas identiques';
                 }
             }
 
+            // Vérification de la case CGU
             if (!isset($_POST["cgu"])) {
-                // si la case n'est pas cochée, on créé une erreur
                 $errors['cgu'] = 'Vous devez accepter les CGU';
             }
 
-            // nous vérifions s'il n'y a pas d'erreur = on regarde si le tableau est vide.
+            // Si aucune erreur, on crée l'utilisateur
             if (empty($errors)) {
-
-                // j'instancie mon objet selon la classe User
                 $objetUser = new User();
-                // je vais créer mon User selon la méthode createUser() et j'essaie de créer mon User
                 if ($objetUser->createUser($_POST["email"], $_POST["password"], $_POST["username"])) {
+                    // Redirection vers une page de succès
                     header('Location: index.php?url=create-success');
                     exit;
                 } else {
-                    $errors['server'] = "Une erreur s'est produite veuillez rééssayer ultèrieurement";
+                    $errors['server'] = "Une erreur s'est produite veuillez réessayer ultérieurement";
                 }
             }
         }
 
+        // On affiche la vue du formulaire d'inscription
         require_once __DIR__ . "/../Views/register.php";
     }
 
+    // Méthode qui gère la connexion d'un utilisateur
     public function login()
     {
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            // je créé un tableau d'erreurs vide car pas d'erreur
             $errors = [];
 
+            // Vérification du champ "email"
             if (isset($_POST["email"])) {
-                // on va vérifier si c'est vide
                 if (empty($_POST["email"])) {
-                    // si c'est vide, je créé une erreur dans mon tableau
                     $errors['email'] = 'Mail obligatoire';
                 }
             }
 
+            // Vérification du champ "password"
             if (isset($_POST["password"])) {
-                // on va vérifier si c'est vide
                 if (empty($_POST["password"])) {
-                    // si c'est vide, je créé une erreur dans mon tableau
                     $errors['password'] = 'Mot de passe obligatoire';
                 }
             }
 
-            // nous vérifions s'il n'y a pas d'erreur = on regarde si le tableau est vide.
+            // Si aucune erreur, on tente la connexion
             if (empty($errors)) {
 
+                // On vérifie que l'email existe dans la base
                 if (User::checkMail($_POST["email"])) {
 
+                    // On récupère les infos de l'utilisateur
                     $userInfos = new User();
                     $userInfos->getUserInfosByEmail($_POST["email"]);
 
+                    // On vérifie que le mot de passe est correct
                     if (password_verify($_POST["password"], $userInfos->password)) {
 
-                        // Nous allons créer une variable de session "user" avec les infos du User
+                        // On stocke les infos du user dans la session
                         $_SESSION["user"]["id"] = $userInfos->id;
                         $_SESSION["user"]["email"] = $userInfos->email;
                         $_SESSION["user"]["username"] = $userInfos->username;
                         $_SESSION["user"]["inscription"] = $userInfos->inscription;
 
-                        // Nous allons ensuite faire une redirection sur une page choisie
+                        // Redirection vers la page profil
                         header("Location: index.php?url=profil");
                     } else {
                         $errors['connexion'] = 'Mail ou Mot de passe incorrect';
@@ -135,16 +129,22 @@ class UserController
             }
         }
 
+        // On affiche la vue du formulaire de connexion
         require_once __DIR__ . "/../Views/login.php";
     }
 
+    // Méthode qui gère la déconnexion
     public function logout()
     {
+        // On supprime les données de session
         unset($_SESSION['user']);
         session_destroy();
+
+        // Redirection vers la page de connexion
         header('Location: index.php?url=login');
     }
 
+    // Méthode qui affiche la page profil
     public function profil()
     {
         require_once __DIR__ . "/../Views/profil.php";

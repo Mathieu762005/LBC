@@ -1,15 +1,19 @@
 <?php
 
+// On indique que cette classe appartient au dossier logique "Models"
 namespace App\Models;
 
+// On importe la classe Database pour se connecter à la base
 use App\Models\DataBase;
 
+// On importe les classes PDO pour exécuter des requêtes SQL
 use PDO;
 use PDOException;
 
+// Définition de la classe User
 class User
 {
-
+    // Propriétés du User (correspondent aux colonnes de la table "users")
     public int $id;
     public string $email;
     public string $password;
@@ -17,184 +21,113 @@ class User
     public string $inscription;
 
     /**
-     * Permet de créer un utilisateur dans la table users
-     * @param string $email
-     * @param string $password
-     * @param string $username
-     * @return bool true si l'insertion a réussi, false en cas d'erreur
+     * Méthode pour créer un nouvel utilisateur dans la base
      */
     public function createUser(string $email, string $password, string $username): bool
     {
         try {
-            // Creation d'une instance de connexion à la base de données
+            // Connexion à la base via notre classe Database
             $pdo = Database::createInstancePDO();
 
-            // test si la connexion est ok
+            // Si la connexion échoue, on retourne false
             if (!$pdo) {
-                // pas de connexion, on return false
                 return false;
             }
 
-            // requête SQL pour insérer un utilisateur dans la table users
+            // Requête SQL pour insérer un nouvel utilisateur
             $sql = 'INSERT INTO `users` (`u_email`, `u_password`, `u_username`) VALUES (:email, :password , :username)';
 
-            // On prépare la requête avant de l'exécuter
+            // Préparation de la requête pour éviter les injections SQL
             $stmt = $pdo->prepare($sql);
 
-            // On associe chaque paramètre nommé de la requête (:email, :password, :username)
-            // avec la valeur correspondante en PHP, en précisant leur type (ici string).
-            // Grâce aux requêtes préparées, cela empêche toute injection SQL.
+            // On lie les valeurs aux paramètres SQL
             $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-            $stmt->bindValue(':password', password_hash($password, PASSWORD_DEFAULT), PDO::PARAM_STR);
+            $stmt->bindValue(':password', password_hash($password, PASSWORD_DEFAULT), PDO::PARAM_STR); // On hash le mot de passe
             $stmt->bindValue(':username', $username, PDO::PARAM_STR);
 
-            // On exécute la requête préparée. La méthode renvoie true si tout s’est bien passé,
-            // false sinon. 
-            // NB : Avec PDO configuré en mode ERRMODE_EXCEPTION, une erreur déclenchera une exception.
+            // On exécute la requête et on retourne le résultat
             return $stmt->execute();
         } catch (PDOException $e) {
-            // test unitaire pour connaitre la raison de l'echec
+            // En cas d'erreur SQL, on affiche le message et on retourne false
             // echo 'Erreur : ' . $e->getMessage();
             return false;
         }
     }
 
     /**
-     * Permet de vérifier si un mail existe déjà dans la table users
-     * @param string $email
-     * @return bool true si le mail existe, false s'il n'existe pas
+     * Méthode pour vérifier si un email existe déjà dans la base
      */
     public static function checkMail(string $email): bool
-
     {
-
         try {
-            // Creation d'une instance de connexion à la base de données
             $pdo = Database::createInstancePDO();
 
-            // test si la connexion est ok
             if (!$pdo) {
-                // pas de connexion, on return false
                 return false;
             }
 
-            // Requête qui teste si un email existe déjà.
-            // SELECT 1 → on ne demande qu’un "1" (pas besoin des infos de l’utilisateur).
-            // LIMIT 1 → on arrête la recherche dès le premier résultat trouvé.
+            // Requête pour vérifier si l'email existe
             $sql = 'SELECT 1 FROM `users` WHERE `u_email` = :email LIMIT 1';
-
-            // On prépare la requête avant de l'exécuter
             $stmt = $pdo->prepare($sql);
-
-            // On associe le paramètre nommé :email avec la valeur contenue dans $email,
-            // en précisant qu’il s’agit d’une chaîne (PDO::PARAM_STR).
-            // Cela permet à PDO de traiter correctement la valeur et d’éviter toute injection SQL.
             $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-
-            // On exécute la requête
             $stmt->execute();
 
-            // Récupère la première colonne du premier résultat de la requête.
-            // Ici, comme la requête fait "SELECT 1", on obtiendra soit 1 si l’email existe,
-            // soit false si aucun résultat n’est trouvé.
+            // Si on trouve une ligne, l'email existe
             $result = $stmt->fetchColumn();
-
-            if ($result !== false) {
-                // une ligne a été trouvée -> l'email existe déjà
-                return true;
-            } else {
-                // aucune ligne trouvée -> l'email n'existe pas
-                return false;
-            }
+            return $result !== false;
         } catch (PDOException $e) {
-            // test unitaire pour connaitre la raison de l'echec
-            // echo 'Erreur : ' . $e->getMessage();
             return false;
         }
     }
 
     /**
-     * Permet de vérifier si un nom d’utilisateur (username) existe déjà dans la table users
-     * @param string $username
-     * @return bool true si le username existe, false s'il n'existe pas
+     * Méthode pour vérifier si un nom d'utilisateur existe déjà
      */
     public static function checkUsername(string $username): bool
     {
         try {
-            // Création d'une instance de connexion à la base de données
             $pdo = Database::createInstancePDO();
 
-            // Vérifie si la connexion est ok
             if (!$pdo) {
-                // pas de connexion, on retourne false
                 return false;
             }
 
-            // Requête qui teste si un username existe déjà.
-            // SELECT 1 → on ne demande qu’un "1" (pas besoin des infos de l’utilisateur).
-            // LIMIT 1 → on arrête la recherche dès le premier résultat trouvé.
+            // Requête pour vérifier si le username existe
             $sql = 'SELECT 1 FROM `users` WHERE `u_username` = :username LIMIT 1';
-
-            // On prépare la requête avant de l'exécuter
             $stmt = $pdo->prepare($sql);
-
-            // On associe le paramètre nommé :username avec la valeur contenue dans $username,
-            // en précisant qu’il s’agit d’une chaîne (PDO::PARAM_STR).
-            // Cela permet à PDO de traiter correctement la valeur et d’éviter toute injection SQL.
             $stmt->bindValue(':username', $username, PDO::PARAM_STR);
-
-            // On exécute la requête
             $stmt->execute();
 
-            // Récupère la première colonne du premier résultat de la requête.
-            // Ici, comme la requête fait "SELECT 1", on obtiendra soit 1 si le username existe,
-            // soit false si aucun résultat n’est trouvé.
+            // Si on trouve une ligne, le username existe
             $result = $stmt->fetchColumn();
-
-            if ($result !== false) {
-                // une ligne a été trouvée -> le username existe déjà
-                return true;
-            } else {
-                // aucune ligne trouvée -> le username n'existe pas
-                return false;
-            }
+            return $result !== false;
         } catch (PDOException $e) {
-            // Test unitaire pour connaître la raison de l’échec
-            // echo 'Erreur : ' . $e->getMessage();
             return false;
         }
     }
 
+    /**
+     * Méthode pour récupérer les infos d'un utilisateur via son email
+     */
     public function getUserInfosByEmail(string $email): bool
     {
         try {
-            // Creation d'une instance de connexion à la base de données
             $pdo = Database::createInstancePDO();
 
-            // test si la connexion est ok
             if (!$pdo) {
-                // pas de connexion, on return false
                 return false;
             }
 
-            // requête SQL pour insérer un utilisateur dans la table users
+            // Requête pour récupérer toutes les infos du user
             $sql = "SELECT * FROM `users` WHERE `u_email` = :email";
-
-            // On prépare la requête avant de l'exécuter
             $stmt = $pdo->prepare($sql);
-
-            // On associe chaque paramètre nommé de la requête (:email, :password, :username)
-            // avec la valeur correspondante en PHP, en précisant leur type (ici string).
-            // Grâce aux requêtes préparées, cela empêche toute injection SQL.
             $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-
-            // On execute la réquête
             $stmt->execute();
 
-            // On recupère les données via un fetch() : se sera un objet
+            // On récupère les données sous forme d'objet
             $user = $stmt->fetch(PDO::FETCH_OBJ);
 
-            // On hydrate notre objet avec les valeurs du User
+            // On hydrate notre objet User avec les données récupérées
             $this->id = $user->u_id;
             $this->email = $user->u_email;
             $this->password = $user->u_password;
@@ -203,8 +136,6 @@ class User
 
             return true;
         } catch (PDOException $e) {
-            // test unitaire pour connaitre la raison de l'echec
-            // echo 'Erreur : ' . $e->getMessage();
             return false;
         }
     }

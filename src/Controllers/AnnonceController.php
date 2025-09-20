@@ -1,79 +1,107 @@
 <?php
 namespace App\Controllers;
 
+// On importe le modèle Annonce pour pouvoir l'utiliser ici
 use App\Models\Annonce;
 
 class AnnonceController
 {
+    // Méthode qui affiche la page des annonces
     public function annonces(): void
     {
+        // On inclut la vue qui affiche toutes les annonces
         require_once __DIR__ . "/../Views/annonces.php";
     }
 
+    // Méthode qui gère la création d'une annonce
     public function create(): void
     {
+        // On démarre la session pour accéder à $_SESSION
+        session_start();
+
+        // On vérifie que le formulaire a été soumis en POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            // je créé un tableau d'erreurs vide car pas d'erreur
+            // On prépare un tableau pour stocker les erreurs éventuelles
             $errors = [];
+
+            // On récupère l'ID de l'utilisateur connecté depuis la session
             $userId = $_SESSION["user"]["id"] ?? null;
 
+            // Si l'utilisateur n'est pas connecté, on ajoute une erreur
             if (!is_numeric($userId)) {
                 $errors['auth'] = "Utilisateur non connecté.";
+            } else {
+                // On force le type en entier
+                $userId = (int) $userId;
             }
 
-            if (isset($_POST["titre"])) {
-                // on va vérifier si c'est vide
-                if (empty($_POST["titre"])) {
-                    // si c'est vide, je créé une erreur dans mon tableau
-                    $errors['titre'] = 'Titre obligatoire';
-                }
+            // Vérification du champ "titre"
+            if (empty($_POST["titre"])) {
+                $errors['titre'] = 'Titre obligatoire';
             }
 
-            if (isset($_POST["description"])) {
-                // on va vérifier si c'est vide
-                if (empty($_POST["description"])) {
-                    // si c'est vide, je créé une erreur dans mon tableau
-                    $errors['description'] = 'Description obligatoire';
-                }
+            // Vérification du champ "description"
+            if (empty($_POST["description"])) {
+                $errors['description'] = 'Description obligatoire';
             }
 
-            if (isset($_POST["prix"])) {
-                // on va vérifier si c'est vide
-                if (empty($_POST["prix"])) {
-                    // si c'est vide, je créé une erreur dans mon tableau
-                    $errors['prix'] = 'prix obligatoire';
-                }
+            // Vérification du champ "prix"
+            if (empty($_POST["prix"])) {
+                $errors['prix'] = 'Prix obligatoire';
             }
 
+            // Traitement de l'image envoyée
+            $photoPath = '';
             if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
-                // Récupère le nom temporaire et le nom original
+                // On récupère le chemin temporaire et le nom du fichier
                 $tmpName = $_FILES['file']['tmp_name'];
                 $fileName = basename($_FILES['file']['name']);
 
-                // Chemin du dossier où on veut enregistrer l'image
+                // Dossier de destination pour l'image
                 $uploadDir = __DIR__ . '/../../public/uploads/';
                 $destination = $uploadDir . $fileName;
 
-                // Déplace le fichier vers le dossier final
-                move_uploaded_file($tmpName, $destination);
+                // On déplace le fichier vers le dossier final
+                if (move_uploaded_file($tmpName, $destination)) {
+                    $photoPath = $destination;
+                } else {
+                    $errors['file'] = "Erreur lors de l'envoi du fichier.";
+                }
+            } else {
+                $errors['file'] = "Image obligatoire.";
             }
 
+            // Si aucune erreur, on peut créer l'annonce
             if (empty($errors)) {
+                // On instancie le modèle Annonce
+                $annonce = new Annonce();
 
-                // j'instancie mon objet selon la classe User
-                $objetAnnonce = new Annonce();
-                // je vais créer mon User selon la méthode createUser() et j'essaie de créer mon User
-                if ($objetAnnonce->createAnnonce($_POST["titre"], $_POST["description"], $_POST["prix"], $_FILES["file"]["tmp_name"], $userId)) {
+                // On appelle la méthode createAnnonce avec les données du formulaire
+                $success = $annonce->createAnnonce(
+                    $_POST["titre"],
+                    $_POST["description"],
+                    (int) $_POST["prix"],
+                    $photoPath,
+                    $userId
+                );
+
+                // Si l'insertion a réussi, on redirige vers la liste des annonces
+                if ($success) {
                     header('Location: index.php?url=annonces');
                     exit;
                 } else {
-                    $errors['server'] = "Une erreur s'est produite veuillez rééssayer ultèrieurement";
+                    // Sinon, on affiche une erreur serveur
+                    $errors['server'] = "Une erreur s'est produite, veuillez réessayer ultérieurement.";
                 }
             }
         }
+
+        // On affiche la vue du formulaire de création
         require_once __DIR__ . "/../Views/create.php";
     }
+
+    // Méthode qui affiche les détails d'une annonce (à compléter plus tard)
     public function show(?int $id): void
     {
         require_once __DIR__ . "/../Views/details.php";
