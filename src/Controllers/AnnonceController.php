@@ -16,6 +16,11 @@ class AnnonceController
 
             // je créé un tableau d'erreurs vide car pas d'erreur
             $errors = [];
+            $userId = $_SESSION["user"]["id"] ?? null;
+
+            if (!is_numeric($userId)) {
+                $errors['auth'] = "Utilisateur non connecté.";
+            }
 
             if (isset($_POST["titre"])) {
                 // on va vérifier si c'est vide
@@ -59,7 +64,7 @@ class AnnonceController
                 // j'instancie mon objet selon la classe User
                 $objetAnnonce = new Annonce();
                 // je vais créer mon User selon la méthode createUser() et j'essaie de créer mon User
-                if ($objetAnnonce->createAnnonce($_POST["titre"], $_POST["description"], $_POST["prix"], $_FILES["file"]["tmp_name"], $_POST["userId"])) {
+                if ($objetAnnonce->createAnnonce($_POST["titre"], $_POST["description"], $_POST["prix"], $_FILES["file"]["tmp_name"], $userId)) {
                     header('Location: index.php?url=annonces');
                     exit;
                 } else {

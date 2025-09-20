@@ -14,7 +14,7 @@ class Annonce
     public string $description;
     public int $prix;
     public string $photo;
-    public int $userId;
+    public $userId;
 
     /**
      * Permet de créer un utilisateur dans la table users
@@ -24,7 +24,7 @@ class Annonce
      * @param string $photo
      * @return bool true si l'insertion a réussi, false en cas d'erreur
      */
-    public function createAnnonce(string $titre, string $description, int $prix, string $photo, int $userId): bool
+    public function createAnnonce(string $titre, string $description, int $prix, string $photo, $userId): bool
     {
         try {
             // Creation d'une instance de connexion à la base de données
