@@ -1,4 +1,7 @@
 FROM php:8.2-apache
+# Installer Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 
 # Activer mod_rewrite et définir le DocumentRoot sur /var/www/public
 RUN a2enmod rewrite \

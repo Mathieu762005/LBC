@@ -1,4 +1,4 @@
 FROM mysql:8.0
 
-COPY ./db/my_custom.cnf /etc/mysql/conf.d/my_custom.cnf
-RUN chmod 644 /etc/mysql/conf.d/my_custom.cnf
+COPY db/init/my_custom.cnf /etc/mysql/conf.d/my_custom.cnf
+RUN chmod 644 /etc/mysql/conf.d/my_custom.cnf 
