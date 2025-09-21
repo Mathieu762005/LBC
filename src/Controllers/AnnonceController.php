@@ -9,6 +9,11 @@ class AnnonceController
     // Méthode qui affiche la page des annonces
     public function annonces(): void
     {
+        // On instancie le modèle
+        $annonceModel = new Annonce();
+
+        // On récupère toutes les annonces
+        $annonces = $annonceModel->getAll();
         // On inclut la vue qui affiche toutes les annonces
         require_once __DIR__ . "/../Views/annonces.php";
     }

@@ -21,20 +21,18 @@
         </div>
         <div class="container">
             <div class="row">
-                <?php foreach ($annonces as $annonce) { ?>
+                <?php foreach ($annonces as $annonce): ?>
                     <div class="card" style="width: 18rem;">
-                        <img src="<?= htmlspecialchars($annonce->a_picture) ?>" class="card-img-top"
-                            alt="Image de l'annonce">
+                        <img src="public/uploads/<?= htmlspecialchars($annonce['a_picture']) ?>" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($annonce->a_title) ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($annonce->a_description) ?></p>
-                            <p class="card-text fw-bold"><?= htmlspecialchars($annonce->a_price) ?> €</p>
-                            <a href="index.php?url=details&id=<?= $annonce->a_id ?>" class="btn btn-primary">Voir
-                                l'annonce</a>
+                            <h5 class="card-title"><?= htmlspecialchars($annonce["a_title"]) ?></h5>
+                            <p class="card-text"><?= htmlspecialchars($annonce["a_description"]) ?></p>
+                            <p class="card-text"><?= htmlspecialchars($annonce["a_price"]) ?> €</p>
+                            <p class="card-text"><?= htmlspecialchars($annonce["a_publication"]) ?></p>
+
                         </div>
                     </div>
-                <?php } ?>
-
+                <?php endforeach; ?>
             </div>
         </div>
     </main>

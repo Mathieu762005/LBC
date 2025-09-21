@@ -62,4 +62,22 @@ class Annonce
             return false;
         }
     }
+    public function getAll(): array
+    {
+        try {
+            $pdo = Database::createInstancePDO();
+            if (!$pdo) {
+                return [];
+            }
+
+            $sql = 'SELECT * FROM `annonces` ORDER BY `a_id` DESC';
+            $stmt = $pdo->query($sql);
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return [];
+        }
+    }
+
 }
