@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 // On importe le modèle Annonce pour pouvoir l'utiliser ici
@@ -53,6 +54,11 @@ class AnnonceController
                 $errors['prix'] = 'Prix obligatoire';
             }
 
+            // Vérification du champ "upload"
+            if (empty($_POST["file"])) {
+                $errors['file'] = 'Photo obligatoire';
+            }
+
             // Traitement de l'image envoyée
             $photoPath = '';
             if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
@@ -62,7 +68,7 @@ class AnnonceController
 
                 //generer nom unique
                 $nomUnique = uniqid() . '_' . $fileName;
-            
+
                 // Dossier de destination pour l'image
                 $uploadDir = __DIR__ . '/../../public/uploads/';
                 $destination = $uploadDir . $nomUnique;
@@ -87,7 +93,7 @@ class AnnonceController
                     $_POST["titre"],
                     $_POST["description"],
                     (int) $_POST["prix"],
-                    $fileName,
+                    $nomUnique,
                     $userId
                 );
 
@@ -107,8 +113,10 @@ class AnnonceController
     }
 
     // Méthode qui affiche les détails d'une annonce (à compléter plus tard)
-    public function show(?int $id): void
+    public function details($id): void
     {
+        $annonceModel = new Annonce;
+        $annonces = $annonceModel->getById($id);
         require_once __DIR__ . "/../Views/details.php";
     }
 }

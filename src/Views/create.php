@@ -25,7 +25,7 @@
                     <input type="text" name="titre" value="<?= $_POST["titre"] ?? "" ?>" class="form-control" id="inputAddress">
                 </div>
                 <div class="col-md-12">
-                    <label for="description" class="form-label">description</label>
+                    <label for="description" class="form-label">description</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["description"] ?? '' ?></span>
                     <textarea class="form-control" name="description" rows="3"><?= $_POST["description"] ?? "" ?></textarea>
                 </div>
                 <div class="col-2">
@@ -33,7 +33,8 @@
                     <input type="number" name="prix" value="<?= $_POST["prix"] ?? "" ?>" class="form-control" id="inputAddress">
                 </div>
                 <div class="col-12">
-                    <input type="file" name="file" id="file">
+                    <label for="inputAddress" class="form-label">Photo</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["file"] ?? '' ?></span>
+                    <input type="file" name="file" value="<?= $_POST["file"] ?? "" ?>" id="file">
                 </div>
                 <div>
                     <button class="uploader text-white px-3 rounded-5" type="submit">crée l'annonce</button>

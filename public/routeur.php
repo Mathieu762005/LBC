@@ -49,6 +49,14 @@ switch ($page) {
         $objController->create();
         break;
 
+    case 'details':
+        if (isset($arrayUrl[1])) {
+            $id = $arrayUrl[1];
+            $objController = new AnnonceController();
+            $objController->details($id);
+        };
+        break;
+
     case 'create-success':
         require_once __DIR__ . "/../src/Views/create-success.php";
         break;

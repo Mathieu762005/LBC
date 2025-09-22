@@ -17,20 +17,23 @@
     </header>
     <main>
         <div>
-            <h1 class="text-center py-5">Annonces Publiée</h1>
+            <h1 class="text-center py-5 fs-1 fw-bold">Annonces Publiée</h1>
         </div>
         <div class="container">
             <div class="row">
                 <?php foreach ($annonces as $annonce): ?>
-                    <div class="card" style="width: 18rem;">
-                        <img src="/uploads/<?= htmlspecialchars($annonce['a_picture']) ?>" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($annonce["a_title"]) ?></h5>
-                            <p class="card-text"><?= htmlspecialchars($annonce["a_description"]) ?></p>
-                            <p class="card-text"><?= htmlspecialchars($annonce["a_price"]) ?> €</p>
-                            <p class="card-text"><?= htmlspecialchars($annonce["a_publication"]) ?></p>
+                    <div class="card m-2 border-0" style="width: 18rem;">
+                        <h4 class="card-title text-black text-center"><i class="bi bi-person-circle"></i> <?= htmlspecialchars($annonce["u_username"]) ?></h4>
+                        <a href="index.php?url=details/<?= $annonce['a_id'] ?>">
+                            <img src="/uploads/<?= htmlspecialchars($annonce['a_picture']) ?>" class="card-img-top rounded-4" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title text-black"><?= htmlspecialchars($annonce["a_title"]) ?></h5>
+                                <p class="card-text text-black"><?= htmlspecialchars($annonce["a_description"]) ?></p>
+                                <p class="card-text text-black"><?= htmlspecialchars($annonce["a_price"]) ?> €</p>
+                                <p class="card-text text-black"><?= htmlspecialchars($annonce["a_publication"]) ?></p>
 
-                        </div>
+                            </div>
+                        </a>
                     </div>
                 <?php endforeach; ?>
             </div>

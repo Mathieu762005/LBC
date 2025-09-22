@@ -70,7 +70,11 @@ class Annonce
                 return [];
             }
 
-            $sql = 'SELECT * FROM `annonces` ORDER BY `a_id` DESC';
+            $sql = 'SELECT a.*, u.u_username
+                    FROM annonces a
+                    JOIN users u ON a.u_id = u.u_id
+                    ORDER BY a.a_id DESC';
+
             $stmt = $pdo->query($sql);
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -79,5 +83,20 @@ class Annonce
             return [];
         }
     }
+    public function getById($id)
+    {
+        $pdo = Database::createInstancePDO();
 
+        $sql = "SELECT a.*, u.u_username 
+                FROM `annonces` a 
+                JOIN users u ON a.u_id = u.u_id
+                WHERE a.a_id = $id
+               ";
+
+        $stmt = $pdo->query($sql);
+
+        $stmt->execute();
+
+        return $stmt->fetch($pdo::FETCH_ASSOC);
+    }
 }
