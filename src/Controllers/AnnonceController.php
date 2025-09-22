@@ -60,9 +60,12 @@ class AnnonceController
                 $tmpName = $_FILES['file']['tmp_name'];
                 $fileName = basename($_FILES['file']['name']);
 
+                //generer nom unique
+                $nomUnique = uniqid() . '_' . $fileName;
+            
                 // Dossier de destination pour l'image
                 $uploadDir = __DIR__ . '/../../public/uploads/';
-                $destination = $uploadDir . $fileName;
+                $destination = $uploadDir . $nomUnique;
 
                 // On déplace le fichier vers le dossier final
                 if (move_uploaded_file($tmpName, $destination)) {
@@ -84,7 +87,7 @@ class AnnonceController
                     $_POST["titre"],
                     $_POST["description"],
                     (int) $_POST["prix"],
-                    $photoPath,
+                    $fileName,
                     $userId
                 );
 
