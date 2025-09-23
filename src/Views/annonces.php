@@ -11,35 +11,36 @@
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <?php include_once "template/navbar.php" ?>
     </header>
-    <main>
+    <main class="flex-grow-1">
         <div>
             <h1 class="text-center py-5 fs-1 fw-bold">Annonces Publiée</h1>
         </div>
         <div class="container">
             <div class="row">
                 <?php foreach ($annonces as $annonce): ?>
-                    <div class="card m-2 border-0" style="width: 18rem;">
-                        <h4 class="card-title text-black text-center"><i class="bi bi-person-circle"></i> <?= htmlspecialchars($annonce["u_username"]) ?></h4>
-                        <a href="index.php?url=details/<?= $annonce['a_id'] ?>">
-                            <img src="/uploads/<?= htmlspecialchars($annonce['a_picture']) ?>" class="card-img-top rounded-4" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title text-black"><?= htmlspecialchars($annonce["a_title"]) ?></h5>
-                                <p class="card-text text-black"><?= htmlspecialchars($annonce["a_description"]) ?></p>
-                                <p class="card-text text-black"><?= htmlspecialchars($annonce["a_price"]) ?> €</p>
-                                <p class="card-text text-black"><?= htmlspecialchars($annonce["a_publication"]) ?></p>
-
-                            </div>
-                        </a>
+                    <div class="col-md-3">
+                        <div class="card h-100 border-0">
+                            <h4 class="card-title text-black text-center"><i class="bi bi-person-circle"></i> <?= htmlspecialchars($annonce["u_username"]) ?></h4>
+                            <a href="index.php?url=details/<?= $annonce['a_id'] ?>">
+                                <img src="/uploads/<?= htmlspecialchars($annonce['a_picture']) ?>" class="card-img-top rounded-4" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title text-black"><?= htmlspecialchars($annonce["a_title"]) ?></h5>
+                                    <p class="card-text text-black"><?= htmlspecialchars($annonce["a_description"]) ?></p>
+                                    <p class="card-text text-black"><?= htmlspecialchars($annonce["a_price"]) ?> €</p>
+                                    <p class="card-text text-black"><?= htmlspecialchars($annonce["a_publication"]) ?></p>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>
         </div>
     </main>
-    <footer class="footer text-white text-center py-3 fixed-bottom">
+    <footer class="footer text-white text-center py-3">
         <?php include_once "template/footer.php" ?>
     </footer>
 </body>

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 // On importe le modèle Annonce pour pouvoir l'utiliser ici
 use App\Models\Annonce;
+use finfo;
 
 class AnnonceController
 {
@@ -27,6 +28,7 @@ class AnnonceController
 
             // On prépare un tableau pour stocker les erreurs éventuelles
             $errors = [];
+            $image = null;
 
             // On récupère l'ID de l'utilisateur connecté depuis la session
             $userId = $_SESSION["user"]["id"] ?? null;
@@ -54,17 +56,32 @@ class AnnonceController
                 $errors['prix'] = 'Prix obligatoire';
             }
 
-            // Vérification du champ "upload"
-            if (empty($_POST["file"])) {
-                $errors['file'] = 'Photo obligatoire';
-            }
-
             // Traitement de l'image envoyée
             $photoPath = '';
             if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
                 // On récupère le chemin temporaire et le nom du fichier
                 $tmpName = $_FILES['file']['tmp_name'];
                 $fileName = basename($_FILES['file']['name']);
+
+                $maxTaille = 8 * 1024 * 1024;
+                $mimeOk = [
+                    'image/jpeg' => 'jpeg',
+                    'image/jpg' => 'jpg',
+                    'image/png' => 'png'
+                ];
+
+                if ($_FILES['file']['size'] > $maxTaille) {
+                    $errors['image'] = 'le fichier est trop volumineux';
+                    return;
+                }
+
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mime = finfo_file($finfo, $_FILES['file']['tmp_name']);
+
+                if (!array_key_exists($mime, $mimeOk)) {
+                    $errors['image'] = 'Type de fichier non autorisé.';
+                    return;
+                }
 
                 //generer nom unique
                 $nomUnique = uniqid() . '_' . $fileName;
