@@ -15,14 +15,14 @@
     <header>
         <?php include_once "template/navbar.php" ?>
     </header>
-    <main class="flex-grow-1">
+    <main class="flex-grow-1 pb-5 main">
         <div>
             <h1 class="text-center py-5 fs-1 fw-bold">Annonces Publiée</h1>
         </div>
         <div class="container">
             <div class="row">
                 <?php foreach ($annonces as $annonce): ?>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-4">
                         <div class="card h-100 border-0">
                             <h4 class="card-title text-black text-center"><i class="bi bi-person-circle"></i> <?= htmlspecialchars($annonce["u_username"]) ?></h4>
                             <a href="index.php?url=details/<?= $annonce['a_id'] ?>">
@@ -40,7 +40,7 @@
             </div>
         </div>
     </main>
-    <footer class="footer text-white text-center py-3">
+    <footer class="footer text-white text-end pe-3 py-3 d-flex align-items-center justify-content-end">
         <?php include_once "template/footer.php" ?>
     </footer>
 </body>

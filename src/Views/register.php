@@ -10,15 +10,15 @@
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <?php include_once "template/navbar.php" ?>
     </header>
-    <main>
+    <main class="flex-grow-1 main">
         <div>
             <h1 class="text-center mt-5 fw-bold">Inscription</h1>
         </div>
-        <div class="formulaire container border rounded-4 mt-5">
+        <div class="formulaire container border rounded-4 bgBlanc mt-5">
             <form class="row g-3 p-5" method="POST" action="" novalidate>
                 <div class="col-6">
                     <label for="inputAddress" class="form-label">E-mail</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["email"] ?? '' ?></span>
@@ -51,7 +51,7 @@
             </form>
         </div>
     </main>
-    <footer class="footer text-white text-center py-3 fixed-bottom">
+    <footer class="footer text-white text-end pe-3 py-3 fixed-bottom d-flex align-items-center justify-content-end">
         <?php include_once "template/footer.php" ?>
     </footer>
 </body>

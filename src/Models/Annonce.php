@@ -95,8 +95,24 @@ class Annonce
 
         $stmt = $pdo->query($sql);
 
+        return $stmt->fetch($pdo::FETCH_ASSOC);
+    }
+
+    public function getByUser($id): array
+    {
+        $pdo = Database::createInstancePDO();
+
+        $sql = "SELECT *
+        FROM `annonces`
+        WHERE u_id = :id
+        ";
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindValue(':id', $id,PDO::PARAM_INT);
+
         $stmt->execute();
 
-        return $stmt->fetch($pdo::FETCH_ASSOC);
+        return $stmt->fetchAll($pdo::FETCH_ASSOC);
     }
 }

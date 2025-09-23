@@ -8,8 +8,22 @@ body {
 
 .footer {
     background-color: #ec5a13;
+    min-height: 5rem;
 }
 
 .uploader {
     background-color: #ec5a13;
+}
+
+.main {
+    background-image: url('../img/23_afcas12.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.bgBlanc {
+    background-color: white;
+}
+
+.description {
+    height: 90%;
 }

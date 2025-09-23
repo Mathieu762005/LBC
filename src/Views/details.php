@@ -10,29 +10,33 @@
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <?php include_once "template/navbar.php" ?>
     </header>
-    <main>
-        <div class="container mt-5 pb-5">
-            <div class="row mx-auto">
+    <main class=" main flex-grow-1 pb-5">
+        <div class="container mt-5 pb-5 bgBlanc">
+            <div class="row align-items-center mx-auto">
                 <div class="col-md-5">
-                    <h2 class="card-title text-black ps-5 py-3"><?= htmlspecialchars($annonces["u_username"]) ?></h2>
-                    <img class="img-fluid rounded-5 mb-4" src="/uploads/<?= htmlspecialchars($annonces['a_picture']) ?>" alt="">
-                    <p class="card-text text-black"><span class="fw-bold">Description : </span><?= htmlspecialchars($annonces["a_description"]) ?></p>
-                    <p class="card-text text-black"><span class="fw-bold">Date de publication : </span><?= htmlspecialchars($annonces["a_publication"]) ?></p>
+                    <img class="img-fluid p-3 rounded-5 my-3" src="/uploads/<?= htmlspecialchars($annonces['a_picture']) ?>" alt="">
+                    <p class="card-text text-black fs-2"><span class="fw-bold">Prix : </span><?= htmlspecialchars($annonces["a_price"]) ?> €</p>
                 </div>
-                <div class="col-md-6 row">
-                    <div class="border rounded-5 p-3 mb-4 align-self-center">
-                        <h1 class="fs-1 text-black"><?= htmlspecialchars($annonces["a_title"]) ?></h1>
-                        <p class="card-text text-black fs-2"><span class="fw-bold">Prix : </span><?= htmlspecialchars($annonces["a_price"]) ?> €</p>
+                <div class="col-md-6 row align-items-center">
+                    <div class="description border rounded-3 p-3 mb-4 row">
+                        <div>
+                            <h1 class="text-black"><?= htmlspecialchars($annonces["u_username"]) ?></h1>
+                        </div>
+                        <div class="row ">
+                            <h2 class="fs-1 text-black"><?= htmlspecialchars($annonces["a_title"]) ?></h2>
+                            <p class="card-text text-black"><span class="fw-bold">Description : </span><?= htmlspecialchars($annonces["a_description"]) ?></p>
+                            <p class="card-text text-black"><span class="fw-bold">Date de publication : </span><?= htmlspecialchars($annonces["a_publication"]) ?></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <footer class="footer text-white text-center py-3 fixed-bottom">
+    <footer class="footer text-white text-end pe-3 py-3 fixed-bottom d-flex align-items-center justify-content-end">
         <?php include_once "template/footer.php" ?>
     </footer>
 </body>

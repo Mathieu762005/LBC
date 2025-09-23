@@ -10,7 +10,9 @@
                     <a class="nav-link active text-white" aria-current="page" href="index.php?url=annonces">Annonces</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active text-white" aria-current="page" href="index.php?url=create">Crée</a>
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <a class="nav-link active text-white" aria-current="page" href="index.php?url=create">Crée</a>
+                    <?php endif; ?>
                 </li>
             </ul>
             <form class="d-flex me-auto" role="search">

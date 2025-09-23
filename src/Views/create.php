@@ -10,15 +10,15 @@
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <?php include_once "template/navbar.php" ?>
     </header>
-    <main>
+    <main class="main flex-grow-1">
         <div>
             <h1 class="text-center mt-5 fw-bold">Crée une annonce</h1>
         </div>
-        <div class="formulaire container border rounded-4 mt-5">
+        <div class="formulaire container border rounded-4 mt-5 bgBlanc">
             <form class="row g-3 p-5" method="POST" enctype="multipart/form-data" novalidate>
                 <div class="col-12">
                     <label for="inputAddress" class="form-label">titre</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["titre"] ?? '' ?></span>
@@ -33,7 +33,7 @@
                     <input type="number" name="prix" value="<?= $_POST["prix"] ?? "" ?>" class="form-control" id="inputAddress">
                 </div>
                 <div class="col-12">
-                    <label for="inputAddress" class="form-label">Photo</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["file"] ?? '' ?></span>
+                    <label for="inputAddress" class="form-label">Photo</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["image"] ?? '' ?></span>
                     <input type="file" name="file" value="<?= $_POST["file"] ?? "" ?>" id="file">
                 </div>
                 <div>
@@ -42,7 +42,7 @@
             </form>
         </div>
     </main>
-    <footer class="footer text-white text-center py-3 fixed-bottom">
+    <footer class="footer text-white text-end pe-3 py-3 fixed-bottom d-flex align-items-center justify-content-end">
         <?php include_once "template/footer.php" ?>
     </footer>
 </body>

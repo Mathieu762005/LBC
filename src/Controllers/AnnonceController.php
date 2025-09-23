@@ -56,6 +56,10 @@ class AnnonceController
                 $errors['prix'] = 'Prix obligatoire';
             }
 
+            if (empty($_POST["image"])) {
+                $errors['image'] = 'Photo obligatoire';
+            }
+
             // Traitement de l'image envoyée
             $photoPath = '';
             if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
@@ -65,22 +69,20 @@ class AnnonceController
 
                 $maxTaille = 8 * 1024 * 1024;
                 $mimeOk = [
-                    'image/jpeg' => 'jpeg',
-                    'image/jpg' => 'jpg',
-                    'image/png' => 'png'
+                    'image/jpeg',
+                    'image/png',
+                    'image/webp'
                 ];
 
                 if ($_FILES['file']['size'] > $maxTaille) {
                     $errors['image'] = 'le fichier est trop volumineux';
-                    return;
                 }
 
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $mime = finfo_file($finfo, $_FILES['file']['tmp_name']);
 
-                if (!array_key_exists($mime, $mimeOk)) {
+                if (!in_array($mime, $mimeOk)) {
                     $errors['image'] = 'Type de fichier non autorisé.';
-                    return;
                 }
 
                 //generer nom unique

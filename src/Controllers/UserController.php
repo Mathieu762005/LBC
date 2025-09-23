@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 // On importe la classe User pour pouvoir l'utiliser ici
 use App\Models\User;
+use App\Models\Annonce;
 
 // Définition de la classe UserController
 class UserController
@@ -147,6 +148,9 @@ class UserController
     // Méthode qui affiche la page profil
     public function profil()
     {
+        $id = $_SESSION['user']['id'];
+        $annonceModel = new Annonce();
+        $annonces = $annonceModel->getByUser($id);
         require_once __DIR__ . "/../Views/profil.php";
     }
 }

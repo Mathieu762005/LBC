@@ -10,13 +10,16 @@
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <?php include_once "template/navbar.php" ?>
     </header>
-    <main>
+    <main class="main flex-grow-1">
+        <div class="container border bgBlanc">
+c
+        </div>
     </main>
-    <footer class="footer text-white text-center py-3 fixed-bottom">
+    <footer class="footer text-white text-end d-flex align-items-center justify-content-end pe-3 py-3 fixed-bottom">
         <?php include_once "template/footer.php" ?>
     </footer>
 </body>

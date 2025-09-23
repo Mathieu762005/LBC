@@ -11,16 +11,38 @@
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <?php include_once "template/navbar.php" ?>
     </header>
-    <main>
-        <?php
-        var_dump($_SESSION['user']);
-        ?>
+    <main class="flex-grow-1 main pb-5">
+        <div>
+            <h1 class="text-center py-5 fs-1 fw-bold"><?= htmlspecialchars($_SESSION['user']['username']) ?></h1>
+        </div>
+        <div class="container">
+            <div class="row">
+                <?php foreach ($annonces as $annonce): ?>
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100 border-0">
+                            <a href="index.php?url=details/<?= $annonce['a_id'] ?>">
+                                <img src="/uploads/<?= htmlspecialchars($annonce['a_picture']) ?>" class="card-img-top rounded-4" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title text-black"><?= htmlspecialchars($annonce["a_title"]) ?></h5>
+                                    <p class="card-text text-black"><?= htmlspecialchars($annonce["a_description"]) ?></p>
+                                    <p class="card-text text-black"><?= htmlspecialchars($annonce["a_price"]) ?> €</p>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="card-text text-black"><?= htmlspecialchars($annonce["a_publication"]) ?></p>
+                                        <a>suprimé</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
     </main>
-    <footer class="footer text-white text-center py-3 fixed-bottom">
+    <footer class="footer text-white text-end pe-3 py-3 d-flex align-items-center justify-content-end">
         <?php include_once "template/footer.php" ?>
     </footer>
 </body>
