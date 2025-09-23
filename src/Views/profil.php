@@ -17,23 +17,20 @@
     </header>
     <main class="flex-grow-1 main pb-5">
         <div>
-            <h1 class="text-center py-5 fs-1 fw-bold"><?= htmlspecialchars($_SESSION['user']['username']) ?></h1>
+            <h1 class="text-center pt-4 pb-5 fs-1 fw-bold"><?= htmlspecialchars($_SESSION['user']['username']) ?></h1>
         </div>
         <div class="container">
             <div class="row">
                 <?php foreach ($annonces as $annonce): ?>
-                    <div class="col-md-3 mb-4">
-                        <div class="card h-100 border-0">
-                            <a href="index.php?url=details/<?= $annonce['a_id'] ?>">
-                                <img src="/uploads/<?= htmlspecialchars($annonce['a_picture']) ?>" class="card-img-top rounded-4" alt="...">
-                                <div class="card-body">
+                    <div class="col-md-2 mt-3">
+                        <div class="card rounded-top-3 h-100 border-0 d-flex flex-column">
+                            <a href="index.php?url=details/<?= $annonce['a_id'] ?>" class="text-decoration-none d-flex flex-column h-100">
+                                <img src="/uploads/<?= htmlspecialchars($annonce['a_picture']) ?>" class="card-img-top rounded-3" alt="...">
+                                <div class="card-body d-flex flex-column justify-content-end flex-grow-1">
                                     <h5 class="card-title text-black"><?= htmlspecialchars($annonce["a_title"]) ?></h5>
-                                    <p class="card-text text-black"><?= htmlspecialchars($annonce["a_description"]) ?></p>
                                     <p class="card-text text-black"><?= htmlspecialchars($annonce["a_price"]) ?> €</p>
-                                    <div class="d-flex justify-content-between">
-                                        <p class="card-text text-black"><?= htmlspecialchars($annonce["a_publication"]) ?></p>
-                                        <a>suprimé</a>
-                                    </div>
+                                    <p class="card-text text-black"><?= htmlspecialchars($annonce["a_publication"]) ?></p>
+                                    <a href="">delete</a>
                                 </div>
                             </a>
                         </div>
