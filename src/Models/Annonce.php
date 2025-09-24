@@ -131,4 +131,35 @@ class Annonce
         $success = $stmt->execute();
         return $success;
     }
+
+    public function updateAnnonce(string $titre, string $description, int $prix, string $photo): bool
+    {
+        try {
+            $pdo = Database::createInstancePDO();
+
+            if (!$pdo) {
+                return false;
+            }
+
+            // Requête SQL correcte pour modifier une annonce
+            $sql = 'UPDATE `annonces`
+                    SET `a_title` = :titre,
+                        `a_description` = :description,
+                        `a_price` = :prix,
+                        `a_picture` = :photo';
+
+            $stmt = $pdo->prepare($sql);
+
+            $stmt->bindValue(':titre', $titre, PDO::PARAM_STR);
+            $stmt->bindValue(':description', $description, PDO::PARAM_STR);
+            $stmt->bindValue(':prix', $prix, PDO::PARAM_INT);
+            $stmt->bindValue(':photo', $photo, PDO::PARAM_STR);
+
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            // Si une erreur SQL se produit, on l'affiche et on retourne false
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
 }
