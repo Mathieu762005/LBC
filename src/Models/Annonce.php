@@ -109,10 +109,26 @@ class Annonce
 
         $stmt = $pdo->prepare($sql);
 
-        $stmt->bindValue(':id', $id,PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
         $stmt->execute();
 
         return $stmt->fetchAll($pdo::FETCH_ASSOC);
+    }
+
+    public function deleteAnnonce($id, $userId)
+    {
+        $pdo = Database::createInstancePDO();
+
+        $sql = "DELETE
+        FROM `annonces`
+        WHERE a_id = :id AND u_id = :userId
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $success = $stmt->execute();
+        return $success;
     }
 }

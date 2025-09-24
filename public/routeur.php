@@ -12,6 +12,7 @@ $arrayUrl = explode('/', $url);
 
 // je récupère la page demandée index 0
 $page = $arrayUrl[0];
+$id = $arrayUrl[1] ?? null;
 
 switch ($page) {
     case 'home':
@@ -49,12 +50,28 @@ switch ($page) {
         $objController->create();
         break;
 
+    case 'delete':
+        $userId = $_SESSION['user']['id'];
+        $objController = new AnnonceController();
+        $objController->delete($id, $userId);
+        break;
+
     case 'details':
         if (isset($arrayUrl[1])) {
             $id = $arrayUrl[1];
             $objController = new AnnonceController();
             $objController->details($id);
         };
+        break;
+
+    case 'favoris':
+        $objController = new AnnonceController();
+        $objController->favoris();
+        break;
+
+    case 'modifier':
+        $objController = new AnnonceController();
+        $objController->modifier($id);
         break;
 
     case 'create-success':

@@ -56,10 +56,6 @@ class AnnonceController
                 $errors['prix'] = 'Prix obligatoire';
             }
 
-            if (empty($_POST["image"])) {
-                $errors['image'] = 'Photo obligatoire';
-            }
-
             // Traitement de l'image envoyée
             $photoPath = '';
             if (isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
@@ -137,5 +133,25 @@ class AnnonceController
         $annonceModel = new Annonce;
         $annonces = $annonceModel->getById($id);
         require_once __DIR__ . "/../Views/details.php";
+    }
+
+    public function delete($id, $userId)
+    {
+        $annonceModel = new Annonce;
+        $annonces = $annonceModel->deleteAnnonce($id, $userId);
+        header('Location: /index.php?url=profil');
+        exit;
+    }
+
+    public function favoris()
+    {
+        require_once __DIR__ . "/../Views/favoris.php";
+    }
+
+    public function modifier($id)
+    {
+        $annonceModel = new Annonce;
+        $annonces = $annonceModel->getById($id);
+        require_once __DIR__ . "/../Views/modifier.php";
     }
 }

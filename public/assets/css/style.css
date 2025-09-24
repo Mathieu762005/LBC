@@ -20,6 +20,7 @@ body {
     background-size: cover;
     background-position: center;
 }
+
 .bgBlanc {
     background-color: white;
 }
@@ -28,6 +29,22 @@ body {
     height: 90%;
 }
 
-img {
-    height: 200px;
+.sup {
+    background-color: #ec1818;
+    font-size: 12px;
+        padding: 5px;
+}
+
+.sup:hover {
+    border: black solid 1px;
+}
+
+.upgrade {
+    background-color: #0aaf0d;
+    font-size: 12px;
+    padding: 5px;
+}
+
+.imgUpgrade {
+    max-height: 50vh;
 }
