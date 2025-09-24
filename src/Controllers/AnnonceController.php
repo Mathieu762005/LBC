@@ -152,11 +152,7 @@ class AnnonceController
     {
         $annonceModel = new Annonce;
         $annonces = $annonceModel->getById($id);
-        require_once __DIR__ . "/../Views/modifier.php";
-    }
 
-    public function update()
-    {
         // On vérifie que le formulaire a été soumis en POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -231,9 +227,10 @@ class AnnonceController
             } else {
                 $errors['file'] = "Image obligatoire.";
             }
-
+            var_dump($errors);
             // Si aucune erreur, on peut créer l'annonce
             if (empty($errors)) {
+                echo "ok";
                 // On instancie le modèle Annonce
                 $annonce = new Annonce();
 
@@ -243,6 +240,7 @@ class AnnonceController
                     $_POST["description"],
                     (int) $_POST["prix"],
                     $nomUnique,
+                    $id
                 );
 
                 // Si l'insertion a réussi, on redirige vers la liste des annonces
@@ -255,5 +253,7 @@ class AnnonceController
                 }
             }
         }
+
+        require_once __DIR__ . "/../Views/modifier.php";
     }
 }

@@ -132,7 +132,7 @@ class Annonce
         return $success;
     }
 
-    public function updateAnnonce(string $titre, string $description, int $prix, string $photo): bool
+    public function updateAnnonce(string $titre, string $description, int $prix, string $photo, int $id): bool
     {
         try {
             $pdo = Database::createInstancePDO();
@@ -143,10 +143,11 @@ class Annonce
 
             // Requête SQL correcte pour modifier une annonce
             $sql = 'UPDATE `annonces`
-                    SET `a_title` = :titre,
-                        `a_description` = :description,
-                        `a_price` = :prix,
-                        `a_picture` = :photo';
+                SET `a_title` = :titre,
+                    `a_description` = :description,
+                    `a_price` = :prix,
+                    `a_picture` = :photo
+                WHERE `a_id` = :id';
 
             $stmt = $pdo->prepare($sql);
 
@@ -154,6 +155,7 @@ class Annonce
             $stmt->bindValue(':description', $description, PDO::PARAM_STR);
             $stmt->bindValue(':prix', $prix, PDO::PARAM_INT);
             $stmt->bindValue(':photo', $photo, PDO::PARAM_STR);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
             return $stmt->execute();
         } catch (PDOException $e) {
