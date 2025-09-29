@@ -120,6 +120,18 @@ class Annonce
     {
         $pdo = Database::createInstancePDO();
 
+        // On instancie le modèle
+        $annonce = new Annonce();
+
+        $imageName = $annonce->getImageNameById($id);
+        $imagePath = __DIR__ . '/../../public/uploads/' . $imageName;
+
+        // Vérifie que le nom de l'image est valide et que ce n'est pas un dossier
+        if (!empty($imageName) && is_file($imagePath)) {
+            unlink($imagePath);
+        }
+
+
         $sql = "DELETE
         FROM `annonces`
         WHERE a_id = :id AND u_id = :userId
@@ -163,5 +175,17 @@ class Annonce
             echo 'Erreur : ' . $e->getMessage();
             return false;
         }
+    }
+
+    public function getImageNameById($id)
+    {
+        $pdo = Database::createInstancePDO();
+        $sql = "SELECT a_picture FROM annonces WHERE a_id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result ? $result['a_picture'] : null;
     }
 }
