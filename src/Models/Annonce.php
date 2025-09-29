@@ -62,6 +62,65 @@ class Annonce
             return false;
         }
     }
+    public function deleteAnnonce($id, $userId)
+    {
+        $pdo = Database::createInstancePDO();
+
+        // On instancie le modèle
+        $annonce = new Annonce();
+
+        $imageName = $annonce->getImageNameById($id);
+        $imagePath = __DIR__ . '/../../public/uploads/' . $imageName;
+
+        // Vérifie que le nom de l'image est valide et que ce n'est pas un dossier
+        if (!empty($imageName) && is_file($imagePath)) {
+            unlink($imagePath);
+        }
+
+
+        $sql = "DELETE
+        FROM `annonces`
+        WHERE a_id = :id AND u_id = :userId
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+        $success = $stmt->execute();
+        return $success;
+    }
+    public function updateAnnonce(string $titre, string $description, int $prix, string $photo, int $id): bool
+    {
+        try {
+            $pdo = Database::createInstancePDO();
+
+            if (!$pdo) {
+                return false;
+            }
+
+            // Requête SQL correcte pour modifier une annonce
+            $sql = 'UPDATE `annonces`
+                SET `a_title` = :titre,
+                    `a_description` = :description,
+                    `a_price` = :prix,
+                    `a_picture` = :photo
+                WHERE `a_id` = :id';
+
+            $stmt = $pdo->prepare($sql);
+
+            $stmt->bindValue(':titre', $titre, PDO::PARAM_STR);
+            $stmt->bindValue(':description', $description, PDO::PARAM_STR);
+            $stmt->bindValue(':prix', $prix, PDO::PARAM_INT);
+            $stmt->bindValue(':photo', $photo, PDO::PARAM_STR);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            // Si une erreur SQL se produit, on l'affiche et on retourne false
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
     public function getAll(): array
     {
         try {
@@ -97,7 +156,6 @@ class Annonce
 
         return $stmt->fetch($pdo::FETCH_ASSOC);
     }
-
     public function getByUser($id): array
     {
         $pdo = Database::createInstancePDO();
@@ -115,68 +173,6 @@ class Annonce
 
         return $stmt->fetchAll($pdo::FETCH_ASSOC);
     }
-
-    public function deleteAnnonce($id, $userId)
-    {
-        $pdo = Database::createInstancePDO();
-
-        // On instancie le modèle
-        $annonce = new Annonce();
-
-        $imageName = $annonce->getImageNameById($id);
-        $imagePath = __DIR__ . '/../../public/uploads/' . $imageName;
-
-        // Vérifie que le nom de l'image est valide et que ce n'est pas un dossier
-        if (!empty($imageName) && is_file($imagePath)) {
-            unlink($imagePath);
-        }
-
-
-        $sql = "DELETE
-        FROM `annonces`
-        WHERE a_id = :id AND u_id = :userId
-        ";
-
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
-        $success = $stmt->execute();
-        return $success;
-    }
-
-    public function updateAnnonce(string $titre, string $description, int $prix, string $photo, int $id): bool
-    {
-        try {
-            $pdo = Database::createInstancePDO();
-
-            if (!$pdo) {
-                return false;
-            }
-
-            // Requête SQL correcte pour modifier une annonce
-            $sql = 'UPDATE `annonces`
-                SET `a_title` = :titre,
-                    `a_description` = :description,
-                    `a_price` = :prix,
-                    `a_picture` = :photo
-                WHERE `a_id` = :id';
-
-            $stmt = $pdo->prepare($sql);
-
-            $stmt->bindValue(':titre', $titre, PDO::PARAM_STR);
-            $stmt->bindValue(':description', $description, PDO::PARAM_STR);
-            $stmt->bindValue(':prix', $prix, PDO::PARAM_INT);
-            $stmt->bindValue(':photo', $photo, PDO::PARAM_STR);
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            // Si une erreur SQL se produit, on l'affiche et on retourne false
-            echo 'Erreur : ' . $e->getMessage();
-            return false;
-        }
-    }
-
     public function getImageNameById($id)
     {
         $pdo = Database::createInstancePDO();
