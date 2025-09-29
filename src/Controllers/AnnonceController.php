@@ -227,10 +227,9 @@ class AnnonceController
             } else {
                 $errors['file'] = "Image obligatoire.";
             }
-            var_dump($errors);
+            
             // Si aucune erreur, on peut créer l'annonce
             if (empty($errors)) {
-                echo "ok";
                 // On instancie le modèle Annonce
                 $annonce = new Annonce();
 
@@ -246,7 +245,6 @@ class AnnonceController
                 // Si l'insertion a réussi, on redirige vers la liste des annonces
                 if ($success) {
                     header('Location: index.php?url=profil');
-                    exit;
                 } else {
                     // Sinon, on affiche une erreur serveur
                     $errors['server'] = "Une erreur s'est produite, veuillez réessayer ultérieurement.";

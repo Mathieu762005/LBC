@@ -38,7 +38,7 @@
                         <input type="number" name="prix" value="<?= $_POST["prix"] ?? htmlspecialchars($annonces['a_price']) ?>" class="form-control" id="inputAddress">
                     </div>
                     <div class="col-12">
-                        <label for="inputAddress" class="form-label">Photo</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["image"] ?? '' ?></span>
+                        <label for="inputAddress" class="form-label">Photo</label><span class="ms-2 text-danger fst-italic fw-light"><?= $errors["file"] ?? '' ?></span>
                         <input type="file" name="file" id="file">
                     </div>
                     <div>

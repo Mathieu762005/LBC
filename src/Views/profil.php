@@ -55,7 +55,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a type="button" href="index.php?url=modifier/<?= $annonce['a_id'] ?>" class="upgrade btn me-4">
+                                <a type="button" href="index.php?url=modifier/<?= $annonce['a_id'] ?>" class="sup upgrade btn me-4">
                                     Modifier
                                 </a>
                             </div>
