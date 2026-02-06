@@ -16,15 +16,15 @@ class Database
         $dotenv->load();
         
         // En mode test, utiliser SQLite si MySQL n'est pas disponible
-        if ($_ENV['APP_ENV'] === 'test') {
+        if (($_ENV['APP_ENV'] ?? 'dev') === 'test') {
             return self::getTestDatabase();
         }
         
         // Variables communes pour MySQL
-        $db_host = $_ENV['DB_HOST'];
-        $db_user = $_ENV['DB_USER'];
-        $db_password = $_ENV['DB_PASS'];
-        $db_name = $_ENV['DB_NAME_DEV'];
+        $db_host = $_ENV['DB_HOST'] ?? 'localhost';
+        $db_user = $_ENV['DB_USER'] ?? 'root';
+        $db_password = $_ENV['DB_PASS'] ?? '';
+        $db_name = $_ENV['DB_NAME_DEV'] ?? 'leboncoin';
         
         try {
             $pdo = new PDO(
@@ -32,7 +32,7 @@ class Database
                 $db_user,
                 $db_password
             );
-            if ($_ENV['APP_ENV'] === 'dev') {
+            if (($_ENV['APP_ENV'] ?? 'dev') === 'dev') {
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
             return $pdo;
