@@ -18,9 +18,18 @@ VALUES ('test@mail.com', 'pass', 'john')");
     private function resetTable(string $table): void
     {
         $pdo = Database::createInstancePDO();
-        $pdo->exec("SET FOREIGN_KEY_CHECKS=0");
-        $pdo->exec("DELETE FROM $table");
-        $pdo->exec("SET FOREIGN_KEY_CHECKS=1");
+        $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+        
+        if ($driver === 'mysql') {
+            $pdo->exec("SET FOREIGN_KEY_CHECKS=0");
+            $pdo->exec("DELETE FROM $table");
+            $pdo->exec("SET FOREIGN_KEY_CHECKS=1");
+        } else {
+            // SQLite - disable foreign keys temporarily
+            $pdo->exec("PRAGMA foreign_keys=OFF");
+            $pdo->exec("DELETE FROM $table");
+            $pdo->exec("PRAGMA foreign_keys=ON");
+        }
     }
     public function testCheckMailReturnsTrueWhenMailExists()
     {
