@@ -1,47 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>AFPA'nnonces</title>
+
+    <!-- cdn bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Coiny&display=swap" rel="stylesheet">
+
+    <!-- css perso -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- cdn icones bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
 </head>
 
-<body class="d-flex flex-column min-vh-100">
-    <header>
-        <?php include_once "template/navbar.php" ?>
-    </header>
-    <main class="flex-grow-1 pb-5 main">
-        <div>
-            <h1 class="text-center pt-4 fs-1 fw-bold">Annonces Publiée</h1>
-        </div>
-        <div class="container">
-            <div class="row">
-                <?php foreach ($annonces as $annonce): ?>
-                    <div class="col-md-2 my-5">
-                        <h5 class="text-black text-start"><i class="bi bi-person-circle"></i> <?= htmlspecialchars($annonce["u_username"]) ?></h5>
-                        <div class="card rounded-top-3 h-100 border-0 d-flex flex-column">
-                            <a href="index.php?url=details/<?= $annonce['a_id'] ?>" class="text-decoration-none d-flex flex-column h-100">
-                                <img src="/uploads/<?= htmlspecialchars($annonce['a_picture']) ?>" class="card-img-top rounded-3" alt="...">
-                                <div class="card-body d-flex flex-column justify-content-end flex-grow-1">
-                                    <h5 class="card-title text-black"><?= htmlspecialchars($annonce["a_title"]) ?></h5>
-                                    <p class="card-text text-black"><?= htmlspecialchars($annonce["a_price"]) ?> €</p>
-                                    <p class="card-text text-black"><?= htmlspecialchars($annonce["a_publication"]) ?></p>
+<body class="d-flex flex-column vh-100">
+
+    <?php include_once __DIR__ . "/templates/navbar.php" ?>
+
+    <main class="container flex-grow-1">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="row mt-3">
+                    <?php foreach ($allAnnonces as $index => $annonce) {
+                    ?>
+                        <div class="col-lg-3 mb-4">
+                            <a href="index.php?url=details/<?= $annonce['a_id'] ?>" class="text-decoration-none">
+                                <div class="card h-100">
+                                    <img src="/uploads/<?= $annonce['a_picture'] ?? 'no_picture.png' ?>" class="img-annonce" alt="Image aléatoire">
+
+                                    <div class="card-body row">
+                                        <div class="border p-2 col-10">
+                                            <p class="card-title text-truncate"><?= $annonce['a_title'] ?></p>
+                                            <p class="card-text fw-bold"><?= $annonce['a_price'] . '€' ?></p>
+                                            <p class="m-0 text-secondary"><?= (new DateTime($annonce['a_publication']))->format('d/m/Y') ?></p>
+                                        </div>
+                                        <div class="border col-2 d-flex flex-column align-items-center justify-content-center p-2">
+                                            <i class="bi bi-heart fs-3"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </a>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php } ?>
+                </div>
+
+                <div class="text-center mb-4">
+                    <a href="index.php?url=annonces" class="btn btn-success">Voir toutes les annonces</a>
+                </div>
+
             </div>
+
         </div>
     </main>
-    <footer class="footer text-white text-end pe-3 py-3 d-flex align-items-center justify-content-end">
-        <?php include_once "template/footer.php" ?>
-    </footer>
+
+    <?php include_once __DIR__ . "/templates/footer.php" ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 
 </html>

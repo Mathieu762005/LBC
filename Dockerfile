@@ -1,17 +1,21 @@
-FROM php:8.4-apache
+FROM php:8.3-apache
 
 WORKDIR /var/www
 
-# Installation des dépendances nécessaires à certaines extensions PHP
+# Installation des dépendances nécessaires aux extensions PHP
 RUN apt-get update && apt-get install -y \
     libicu-dev \
+    libzip-dev \
     unzip \
     git \
     zip \
+    pkg-config \
+    && docker-php-ext-configure intl \
     && docker-php-ext-install \
         pdo \
         pdo_mysql \
         intl \
+        zip \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && apt-get clean && rm -rf /var/lib/apt/lists/*

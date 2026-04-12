@@ -4,6 +4,8 @@ use App\Controllers\HomeController;
 use App\Controllers\UserController;
 use App\Controllers\AnnonceController;
 
+use App\Models\Database;
+
 // si le param url est présent on prend sa valeur, sinon on donne la valeur home
 $url = $_GET['url'] ?? 'home';
 
@@ -12,11 +14,15 @@ $arrayUrl = explode('/', $url);
 
 // je récupère la page demandée index 0
 $page = $arrayUrl[0];
-$id = $arrayUrl[1] ?? null;
 
 switch ($page) {
     case 'home':
         $objController = new HomeController();
+        $objController->index();
+        break;
+
+    case 'annonces':
+        $objController = new AnnonceController();
         $objController->index();
         break;
 
@@ -40,9 +46,9 @@ switch ($page) {
         $objController->profil();
         break;
 
-    case 'annonces':
+    case 'details':
         $objController = new AnnonceController();
-        $objController->annonces();
+        $objController->show($arrayUrl[1] ?? null);
         break;
 
     case 'create':
@@ -51,31 +57,17 @@ switch ($page) {
         break;
 
     case 'delete':
-        $userId = $_SESSION['user']['id'];
         $objController = new AnnonceController();
-        $objController->delete($id, $userId);
+        $objController->delete($arrayUrl[1] ?? null);
         break;
 
-    case 'details':
-        if (isset($arrayUrl[1])) {
-            $id = $arrayUrl[1];
-            $objController = new AnnonceController();
-            $objController->details($id);
-        };
-        break;
-
-    case 'favoris':
+    case 'edit':
         $objController = new AnnonceController();
-        $objController->favoris();
+        $objController->edit($arrayUrl[1] ?? null);
         break;
 
-    case 'modifier':
-        $objController = new AnnonceController();
-        $objController->modifier($id);
-        break;
-
-    case 'create-success':
-        require_once __DIR__ . "/../src/Views/create-success.php";
+    case 'register-success':
+        require_once __DIR__ . "/../src/Views/register-success.php";
         break;
 
     default:
